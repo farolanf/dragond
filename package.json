@@ -1,0 +1,19 @@
+{
+  "name": "dragond",
+  "version": "0.1.0",
+  "description": "HTML5 drag and drop library",
+  "main": "dnd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/farolanf/dragond.git"
+  },
+  "author": "Farolan Faisal farolanfaisal@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/farolanf/dragond/issues"
+  },
+  "homepage": "https://github.com/farolanf/dragond#readme"
+}
