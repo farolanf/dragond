@@ -15,19 +15,23 @@
   </style>
 </head>
 <body>
-  <div id="demo1">
-    <iframe src="demo1.html"></iframe>
+  <div class="demo">
+    <iframe src="demo-basic.html"></iframe>
   </div>
   <hr>
-  <div id="demo2">
-    <iframe src="demo1.html"></iframe>
+  <div class="demo">
+    <iframe src="demo-iframe.html"></iframe>
   </div>
   <script
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
   <script>
-    $('iframe').on('load', resizeIframe);
+    $('iframe').on('load', initDemo);
+    function initDemo(e) {
+      
+      resizeIframe(e);
+    }
     function resizeIframe(e) {
       const iframe = e.target;
       iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
