@@ -58,8 +58,8 @@
   <script class="script">
     const dragond = new Dragond(['ul']);
     $('iframe').on('load', function() {
-      dragond.addContainers($('.iframe-1').contents().find('ul').toArray());
-      dragond.addContainers($('.iframe-2').contents().find('ul').toArray());
+      dragond.addIframe(this);
+      dragond.addContainers($(this).contents().find('ul').toArray());
     });
   </script>
 </body>
