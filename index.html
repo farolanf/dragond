@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>dragond Demo - A Simple HTML5 Drag and Drop Library</title>
+  <link href="https://cdn.rawgit.com/google/code-prettify/760e6e73/src/prettify.css" rel="stylesheet">
   <style>
     iframe {
       border: none;
@@ -11,6 +12,16 @@
     hr {
       border: none;
       border-top: 1px solid #eee;
+    }
+    .two-columns {
+      display: flex;
+      justify-content: space-between;
+    }
+    .two-columns > * {
+      width: 100%;
+    }
+    .two-columns > :not(:first-child) {
+      margin-left: 10px;
     }
   </style>
 </head>
@@ -26,11 +37,29 @@
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
   <script>
     $('iframe').on('load', initDemo);
     function initDemo(e) {
-      
+      initSource(this);
       resizeIframe(e);
+    }
+    function initSource(iframe) {
+      const div = iframe.parentElement;
+      const body = $(iframe.contentWindow.document.body);
+      const html = body.find('.html').html();
+      const style = body.find('style').html();
+      const js = body.find('script').html();
+      const two = $('<div class="two-columns">');
+      two.appendTo(div);
+      $('<div>').appendTo(two)
+        .append('<h4>HTML</h4>')
+        .append($('<pre class="prettyprint">').text(html));
+      $('<div>').appendTo(two)
+        .append('<h4>CSS</h4>')
+        .append($('<pre class="prettyprint">').text(style));
+      $('<h4>Javascript</h4>').appendTo(div);
+      $('<pre class="prettyprint">').text(js).appendTo(div);
     }
     function resizeIframe(e) {
       const iframe = e.target;
