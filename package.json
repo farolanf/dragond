@@ -10,8 +10,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/farolanf/dragond.git"
   },
-  "author": "Farolan Faisal farolanfaisal@gmail.com",
-  "private": true,
+  "author": "Farolan Faisal (farolanfaisal@gmail.com)",
   "bugs": {
     "url": "https://github.com/farolanf/dragond/issues"
   },
