@@ -7,7 +7,6 @@
   <style>
     iframe {
       border: none;
-      width: 100%;
     }
     hr {
       border: none;
@@ -29,7 +28,6 @@
   <div class="demo">
     <iframe src="demo-basic.html"></iframe>
   </div>
-  <hr>
   <div class="demo">
     <iframe src="demo-iframe.html"></iframe>
   </div>
@@ -63,6 +61,7 @@
     }
     function resizeIframe(e) {
       const iframe = e.target;
+      iframe.style.width = iframe.contentWindow.document.body.scrollWidth + 'px';
       iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
     }
   </script>

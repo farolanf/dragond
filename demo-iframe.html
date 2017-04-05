@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="dnd.js"></script>
+</head>
+<body>
+  <h1>&lt;iframe&gt;</h1>
+  <p>Drag to move items between iframes.</p>
+  <div class="html">
+    <ul>
+      <li>Apple</li>
+      <li>Durian</li>
+      <li>Rambutan</li>
+    </ul>
+
+    <h4>iframe 1</h4>
+    <iframe class="iframe-1" srcdoc="
+      <style>
+        li {
+          cursor: pointer;
+        }
+      </style>
+      <ul>
+        <li>Milk</li>
+        <li>Yogurt</li>
+        <li>Honey</li>
+      </ul>
+    "></iframe>
+
+    <h4>iframe 2</h4>
+    <iframe class="iframe-2" srcdoc="
+      <style>
+        li {
+          cursor: pointer;
+        }
+      </style>
+      <ul>
+        <li>Nasi Goreng</li>
+        <li>Mie Ayam</li>
+        <li>Bakso</li>
+      </ul>
+    "></iframe>
+  </div>
+  <style>
+    li {
+      cursor: pointer;
+    }
+    iframe {
+      border: 1px solid #ddd;
+    }
+  </style>
+  <script class="script">
+    const dragond = new Dragond(['ul']);
+    $('iframe').on('load', function() {
+      dragond.addContainers($('.iframe-1').contents().find('ul').toArray());
+      dragond.addContainers($('.iframe-2').contents().find('ul').toArray());
+    });
+  </script>
+</body>
+</html>
