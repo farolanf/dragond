@@ -45,7 +45,7 @@
     function initSource(iframe) {
       const div = iframe.parentElement;
       const body = $(iframe.contentWindow.document.body);
-      const html = body.find('.html').html();
+      const html = body.find('.html').html().replace(/draggable="true"/g, '');
       const style = body.find('style').html();
       const js = body.find('script').html();
       const two = $('<div class="two-columns">');
