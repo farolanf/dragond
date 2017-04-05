@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="dnd.js"></script>
+</head>
+<body>
+  <h1>Nested</h1>
+  <p>Drag the items to reorder between outer and inner list.</p>
+  <div class="html">
+    <ul>
+      <li>Apple</li>
+      <li>Durian</li>
+      <li>Rambutan</li>
+      <li>
+        Inner List (can be dragged)
+        <ul>
+          <li>Donut</li>
+          <li>Pizza</li>
+          <li>Burger</li>
+        </ul>
+      </li>
+    </ul>
+    
+    <ul>
+      <li>Mango</li>
+      <li>Avocado</li>
+      <li>Dragon Fruit</li>
+    </ul>
+  </div>
+  <style>
+    ul {
+      margin-top: 16px;
+      padding: 16px 16px 16px 48px;
+      border: 1px solid #eee;
+    }
+    li {
+      padding: 4px;
+      cursor: pointer;
+    }
+  </style>
+  <script class="script">
+    const dragond = new Dragond(['ul']);
+  </script>
+</body>
+</html>
