@@ -11,10 +11,16 @@ function Dragond(initialContainers, options) {
   let originalSibling;
   let parent;
 
-  options = options || {};
+  const defaultOptions = {
+    inserts,
+  };
+
+  options = Object.assign({}, defaultOptions, options || {});
+  
   const dndOptions = Object.assign({}, options, {
     start, end, drag, over, enter, leave, drop,
   });
+  
   const dnd = new Dnd(initialContainers, dndOptions);
   const dndDestroy = dnd.destroy;
 
@@ -28,6 +34,10 @@ function Dragond(initialContainers, options) {
     dndDestroy();
   }
 
+  function inserts() {
+    return true;
+  }
+
   function start(e, el, src) {
     // options.shadow && dragShadow.create(el, e);
     originalSibling = $(el).next()[0];
@@ -39,12 +49,22 @@ function Dragond(initialContainers, options) {
     options.start && options.start.call(this, e, el, src);
   }
 
+  /**
+   * Occurs when dragging has ended.
+   * 
+   * @param {event} e - A drag event
+   * @param {element} el - The dragged element
+   * @param {element} con - The receiving container (might be null)
+   * @param {element} src - The source container
+   * @param {element} parent - Current parent of el (can be different from con)
+   * @param {element} sibling - Current sibling of el
+   */
   function end(e, el, con, src) {
     // options.shadow && dragShadow.remove();
-    $(el).removeClass('dg-dragged');
     dnd.$body.removeClass('dg-dragging');
+    $(el).removeClass('dg-dragged');
     const sibling = $(el).next()[0];
-    options.end && options.end.call(this, e, el, parent, src, sibling);
+    options.end && options.end.call(this, e, el, con, src, parent, sibling);
     parent = originalSibling = null;
   }
 
@@ -64,6 +84,7 @@ function Dragond(initialContainers, options) {
   }
 
   function leave(e, el, con, src) {
+    // console.log('leave');
     $(con).removeClass('dg-dragover dg-invalid');
     options.leave && options.leave.call(this, e, el, con, src);
   }
@@ -74,16 +95,26 @@ function Dragond(initialContainers, options) {
   }
 
   function over(e, el, con, src) {
-    deltaPos.update(e);
-    insert(e, el, con);
+    if (options.inserts(el, con, src)) {
+      deltaPos.update(e);
+      insert(e, el, con);
+    }
     options.over && options.over.call(this, e, el, con, src);
   }
 
+  /**
+   * Occurs when element is dropped to a container.
+   * 
+   * @param {event} e - A drag event
+   * @param {element} el - The dragged element
+   * @param {element} con - The receiving container
+   * @param {element} src - The source container
+   * @param {element} parent - Current parent of el (can be different from con)
+   * @param {element} sibling - Current sibling of el
+   */
   function drop(e, el, con, src) {
     const sibling = $(el).next()[0];
-    if (sibling !== originalSibling) {
-      options.drop && options.drop.call(this, e, el, con, src, sibling);
-    }
+    options.drop && options.drop.call(this, e, el, con, src, parent, sibling);
   }
 
   function insert(e, el, con) {
@@ -91,7 +122,7 @@ function Dragond(initialContainers, options) {
       if (e.target === con) {
         if (con.childElementCount === 0) {
           con.appendChild(el);
-          parent = con;
+          parent = el.parentElement;
         }
       }
       else if (deltaPos.x !== 0 || deltaPos.y !== 0) {
@@ -118,11 +149,11 @@ function Dragond(initialContainers, options) {
     const sibling = findSibling(e.target, con);
     if ((beforeH && allowBeforeH) || (beforeV && allowBeforeV)) {
       $(el).insertBefore(sibling);
-      parent = sibling.parentNode;
+      parent = el.parentElement;
     }
     else if ((!beforeH && allowAfterH) || (!beforeV && allowAfterV)) {
       $(el).insertAfter(sibling);
-      parent = sibling.parentNode;
+      parent = el.parentElement;
     }
   }
 
@@ -292,6 +323,7 @@ function Dragond(initialContainers, options) {
       addIframe,
       addContainers,
       removeFoundContainers,
+      replaceBody,
       destroy,
       set containers(c) {containers = c; initContainers()},
     };
@@ -460,6 +492,11 @@ function Dragond(initialContainers, options) {
       const y = e.clientY;
       const rect = el.getBoundingClientRect();
       return x >= rect.left && x < rect.right && y >= rect.top && y < rect.bottom;
+    }
+
+    function replaceBody(prev, el) {
+      const i = $.inArray(prev, $body);
+      $body.splice(i, 1, el);
     }
   }
 
