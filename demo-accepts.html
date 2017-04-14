@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="dnd.js"></script>
+</head>
+<body>
+  <h1>accepts</h1>
+  <p>Move the items between container.</p>
+  <div class="html">
+    <ul>
+      <li>Apple</li>
+      <li>Durian</li>
+      <li>Rambutan</li>
+    </ul>
+    <h4>accepts() returns true</h4>
+    <ul>
+    </ul>
+    <h4>accepts() returns false</h4>
+    <ul class="no-drop">
+    </ul>
+    <p>Container that doesn't accept will not receive drop event.</p>
+  </div>
+  <style>
+    ul {
+      border: 1px solid #aaa;
+      padding: 8px 40px;
+    }
+    ul.dg-dragover {
+      border: 1px solid blue;
+    }
+    ul.dg-dragover.no-drop {
+      border: 1px solid red;
+    }
+    li {
+      padding: 4px;
+      cursor: move;
+    }
+  </style>
+  <script class="script">
+    const dragond = new Dragond(['ul'], {
+      accepts(el, con) {
+        return !$(con).is('.no-drop');
+      }
+    });
+  </script>
+</body>
+</html>
