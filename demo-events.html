@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="dnd.js"></script>
+</head>
+<body>
+  <h1>Events</h1>
+  <p>Drag the items to reorder.</p>
+  <div class="html">
+    <h4>Container A</h4>
+    <ul class="ul-container A">
+      <li>Apple</li>
+      <li>Durian</li>
+      <li>Rambutan</li>
+    </ul>
+    <h4>Container B</h4>
+    <ul class="ul-container B">
+    </ul>
+    <h4>Log <button class="clear-log">clear</button></h4>
+    <div class="log"></div>
+    <p class="drag-status">drag status</p>
+    <p class="over-status">over status</p>
+  </div>
+  <style>
+    .html {
+      width: 500px;
+    }
+    .ul-container {
+      padding: 8px 40px;
+      border: 1px dashed #aaa;
+    }
+    .ul-container.dg-dragover {
+      border: 1px dashed blue;
+    }
+    .ul-container li {
+      padding: 8px 4px;
+      cursor: move;
+    }
+    .log {
+      border: 1px solid #eee;
+      height: 200px;
+      overflow: auto;
+    }
+    .log ul {
+      margin: 0;
+    }
+  </style>
+  <script class="script">
+    const dragond = new Dragond(['ul', '.div-container'], {
+      start(e, el, src) {
+        log(`start dragging ${elstr(el)} from ${constr(src)}`);
+      },
+      end(e, el, con, src, parent, sibling) {
+        log(`end dragging
+        <ul>
+          <li>${elstr(el)}</li>
+          <li>from ${constr(src)}</li>
+          <li>last container ${constr(con)}</li>
+          <li>current parent ${constr(parent)}</li>
+          <li>current sibling ${elstr(sibling)}</li>
+        </ul>`);
+      },
+      drop(e, el, con, src, parent, sibling) {
+        log(`drop
+        <ul>
+          <li>${elstr(el)}</li>
+          <li>from ${constr(src)}</li>
+          <li>last container ${constr(con)}</li>
+          <li>current parent ${constr(parent)}</li>
+          <li>current sibling ${elstr(sibling)}</li>
+        </ul>`);
+      },
+      enter(e, el, con, src) {
+        log(`enter ${constr(con)}`);
+      },
+      leave(e, el, con, src) {
+        log(`leave ${constr(con)}`);
+      },
+      drag(e, el, con, src) {
+        $('.drag-status').text(`drag event: ${elstr(el)} over ${constr(con)}`);
+      },
+      over(e, el, con, src) {
+        $('.over-status').text(`over event: ${elstr(el)} over ${constr(con)}`);
+      },
+    });
+    function elstr(el) {
+      return el ? `${el.tagName} ${el.innerText}` : String(el);
+    }
+    function constr(el) {
+      return el ? `${el.tagName}${cls(el)}` : String(el);
+    }
+    function cls(el) {
+      if (!el) return '';
+      return el.className ? '.' + el.className.replace(/\s+/g, '.') : '';
+    }
+    function log(str) {
+      $('.log').append(`<p>${str}<p>`);
+      $('.log')[0].scrollTop = $('.log')[0].scrollHeight;
+    }
+    $('.clear-log').on('click', function() {
+      $('.log').text('');
+    });
+  </script>
+</body>
+</html>
